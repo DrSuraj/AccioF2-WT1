@@ -5,76 +5,83 @@ const data = [
 
 // 1. Print Developers
 function printDeveloper() {
-  for (let developer of data) {
-      console.log(developer);
-  }
+  const developers = data.filter((person) => person.profession === 'developer');
+  console.log(developers);
 }
 
 // 2. Add Data
 function addData() {
-  let name = prompt("Enter name:");
-  let age = prompt("Enter age:");
-  let profession = prompt("Enter profession:");
-  
-  let newData = { name: name, age: parseInt(age), profession: profession };
-  data.push(newData);
-}
+  const newName = prompt('Enter name:');
+  const newAge = parseInt(prompt('Enter age:'), 10);
+  const newProfession = prompt('Enter profession:');
 
-// 3. Remove Admins
-function removeAdmin() {
-  let admins = data.filter(dev => dev.profession.toLowerCase() === 'admin');
-  data = data.filter(dev => dev.profession.toLowerCase() !== 'admin');
-  console.log("Removed Admins:", admins);
-}
-
-// 4. Concatenate Array
-function concatenateArray() {
-  let dummyArray = [
-      { name: "dummy1", age: 30, profession: "designer" },
-      { name: "dummy2", age: 25, profession: "developer" },
-  ];
-
-  let resultArray = data.concat(dummyArray);
-  console.log("Concatenated Array:", resultArray);
-}
-
-// 5. Average Age
-function averageAge() {
-  let sum = data.reduce((acc, dev) => acc + dev.age, 0);
-  let average = sum / data.length;
-  console.log("Average Age:", average.toFixed(2));
-}
-
-// 6. Age Check
-function checkAgeAbove25() {
-  let isAbove25 = data.some(dev => dev.age > 25);
-  console.log("At least one person is above 25:", isAbove25);
-}
-
-// 7. Unique Professions
-function uniqueProfessions() {
-  let professionsSet = new Set(data.map(dev => dev.profession));
-  console.log("Unique Professions:", [...professionsSet]);
-}
-
-// 8. Sort by Age
-function sortByAge() {
-  data.sort((a, b) => a.age - b.age);
-  console.log("Sorted by Age:", data);
-}
-
-// 9. Update Profession
-function updateJohnsProfession() {
-  let john = data.find(dev => dev.name.toLowerCase() === 'john');
-  if (john) {
-      john.profession = 'manager';
-      console.log("John's profession updated to 'manager'");
+  if (!newName || isNaN(newAge) || !newProfession) {
+    alert('Invalid input. Please enter valid details.');
+    return;
   }
+
+  const newData = { name: newName, age: newAge, profession: newProfession };
+  data.push(newData);
+  console.log(data);
 }
 
-// 10. Profession Count
+// // 3. Remove Admins
+function removeAdmin() {
+  const filteredData = data.filter((person) => person.profession !== 'admin');
+  console.log(filteredData);
+}
+
+// // 4. Concatenate Array
+function concatenateArray() {
+  const newData = [
+    { name: "alex", age: 22, profession: "designer" },
+    { name: "mary", age: 29, profession: "developer" },
+  ];
+  const concatenatedData = data.concat(newData);
+  console.log(concatenatedData);
+}
+
+// // 5. Average Age
+function averageAge() {
+  const totalAge = data.reduce((sum, person) => sum + person.age, 0);
+  const average = totalAge / data.length;
+  console.log(average);
+}
+
+// // 6. Age Check
+function checkAgeAbove25() {
+  const above25 = data.some((person) => person.age > 25);
+  console.log(above25);
+}
+
+// // 7. Unique Professions
+function uniqueProfessions() {
+  const professions = [...new Set(data.map((person) => person.profession))];
+  console.log(professions);
+}
+
+// // 8. Sort by Age
+function sortByAge() {
+  const sortedData = [...data].sort((a, b) => a.age - b.age);
+  console.log(sortedData);
+}
+
+// // 9. Update Profession
+function updateJohnsProfession() {
+  const updatedData = data.map((person) => {
+    if (person.name === 'john') {
+      return { ...person, profession: 'manager' };
+    }
+    return person;
+  });
+  console.log(updatedData);
+}
+
+// // 10. Profession Count
 function getTotalProfessions() {
-  let developers = data.filter(dev => dev.profession.toLowerCase() === 'developer');
-  let admins = data.filter(dev => dev.profession.toLowerCase() === 'admin');
-  console.log(`Total Developers: ${developers.length}, Total Admins: ${admins.length}`);
+  const professionCount = data.reduce((count, person) => {
+    count[person.profession] = (count[person.profession] || 0) + 1;
+    return count;
+  }, {});
+  console.log(professionCount);
 }
